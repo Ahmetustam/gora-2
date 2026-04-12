@@ -9,7 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const url = `https://discord.com/oauth2/authorize?${new URLSearchParams({
     client_id: CLIENT_ID,
-    redirect_uri: `${getAbsoluteUrl()}/api/auth/callback`,
+    redirect_uri: 'http://localhost:3000/api/auth/callback',
     response_type: 'code',
     scope: 'identify guilds',
     state: locale ?? '',
