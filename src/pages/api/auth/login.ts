@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   };
 
   const url =
-    'https://discord.com/oauth2/authorize?client_id=1475061950705569953' +
+    'https://discord.com/oauth2/authorize?client_id=3' +
     new URLSearchParams({
       client_id: CLIENT_ID,
       redirect_uri: `${getAbsoluteUrl()}/api/auth/callback`,
