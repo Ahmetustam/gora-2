@@ -23,7 +23,7 @@ export const config: AppConfig = {
   name: 'Gora Bot DashBoard',
   icon: BotIcon,
   inviteUrl:
-    'https://discord.com/api/oauth2/authorize?client_id=1475061950705569953&permissions=8&scope=bot',
+    'https://discord.com/oauth2/authorize?client_id=1475061950705569953',
   guild: {
     //filter guilds that user has no permissions to manage it
     filter: (guild) => (Number(guild.permissions) & PermissionFlags.ADMINISTRATOR) !== 0,
