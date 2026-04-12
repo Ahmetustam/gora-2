@@ -20,7 +20,7 @@ const BotIcon = createIcon({
 });
 
 export const config: AppConfig = {
-  name: 'Demo Bot',
+  name: 'Gora Bot DashBoard',
   icon: BotIcon,
   inviteUrl:
     'https://discord.com/api/oauth2/authorize?client_id=1475061950705569953&permissions=8&scope=bot',
