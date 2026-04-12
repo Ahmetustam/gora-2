@@ -7,15 +7,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     locale?: string;
   };
 
-  const url =
-    'https://discord.com/oauth2/authorize?client_id=' +
-    new URLSearchParams({
-      client_id: CLIENT_ID,
-      redirect_uri: `${getAbsoluteUrl()}/api/auth/callback`,
-      response_type: 'code',
-      scope: 'identify guilds',
-      state: locale ?? '',
-    });
+  const url = `https://discord.com/oauth2/authorize?${new URLSearchParams({
+    client_id: CLIENT_ID,
+    redirect_uri: `${getAbsoluteUrl()}/api/auth/callback`,
+    response_type: 'code',
+    scope: 'identify guilds',
+    state: locale ?? '',
+  })}`;
 
   res.redirect(302, url);
 }
