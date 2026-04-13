@@ -17,13 +17,11 @@ import AppLayout from '@/components/layout/app';
 import { iconUrl } from '@/api/discord';
 import Link from 'next/link';
 
-// DİKKAT: Buradaki HomeView importunu sildik, hata buydu!
-
 const HomePage: NextPageWithLayout = () => {
   return (
     <Box>
       <Heading size="md" mb={5}>Sunucu Seçin</Heading>
-      <Text color="gray.400" mb={8}>Botun ayarlarını yönetmek için bir sunucu seçin.</Text>
+      <Text color="gray.400" mb={8}>Sadece botun bulunduğu ve sahibi olduğunuz sunucular listelenir.</Text>
       <GuildSelect />
     </Box>
   );
@@ -33,20 +31,13 @@ export function GuildSelect() {
   const guilds = useGuilds();
 
   if (guilds.status === 'success') {
-    // config.guild.filter içindeki mantığa göre sunucuları süzüyoruz
     const filteredGuilds = guilds.data?.filter((guild) => config.guild.filter(guild)) || [];
 
     if (filteredGuilds.length === 0) {
       return (
         <Card variant="primary" p={10} textAlign="center">
-          <Text mb={4}>Yönetici olduğunuz veya botun bulunduğu bir sunucu bulunamadı.</Text>
-          <Button 
-            as="a" 
-            href={config.inviteUrl} 
-            target="_blank" 
-            variant="primary"
-            alignSelf="center"
-          >
+          <Text mb={4}>Sunucu bulunamadı. Botun sunucuda olduğundan ve sunucu sahibi olduğunuzdan emin olun.</Text>
+          <Button as="a" href={config.inviteUrl} target="_blank" variant="primary">
             Botu Davet Et
           </Button>
         </Card>
@@ -69,18 +60,16 @@ export function GuildSelect() {
 
   if (guilds.status === 'error')
     return (
-      <Card variant="primary" p={5} borderColor="red.500">
-        <Text color="red.400" mb={3}>API bağlantısı sağlanamadı. Lütfen backend (bot) IP adresini kontrol edin.</Text>
-        <Button size="sm" onClick={() => guilds.refetch()}>Tekrar Dene</Button>
+      <Card variant="primary" p={5}>
+        <Text color="red.400">API bağlantısı kurulamadı. Lütfen Vercel ayarlarını ve botu kontrol edin.</Text>
+        <Button size="sm" mt={2} onClick={() => guilds.refetch()}>Tekrar Dene</Button>
       </Card>
     );
 
   if (guilds.status === 'loading')
     return (
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={3}>
-        {[...Array(6)].map((_, i) => (
-          <Skeleton key={i} minH="88px" rounded="2xl" />
-        ))}
+        {[...Array(6)].map((_, i) => <Skeleton key={i} minH="88px" rounded="2xl" />)}
       </SimpleGrid>
     );
 
