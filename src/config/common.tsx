@@ -23,9 +23,9 @@ export const config: AppConfig = {
   name: 'Gora Bot DashBoard',
   icon: BotIcon,
   inviteUrl:
-    'https://discord.com/oauth2/authorize?client_id=1475061950705569953',
+    'https://discord.com/oauth2/authorize?client_id=1164533425764565096&permissions=8&scope=bot%20applications.commands',
   guild: {
-    //filter guilds that user has no permissions to manage it
-    filter: (guild) => (Number(guild.permissions) & PermissionFlags.ADMINISTRATOR) !== 0,
+    // Filtreyi kaldırdım, artık botun olduğu tüm sunucuları görebileceksin
+    filter: (guild) => true,
   },
 };
