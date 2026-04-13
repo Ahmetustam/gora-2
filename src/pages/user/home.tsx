@@ -17,12 +17,13 @@ import AppLayout from '@/components/layout/app';
 import { iconUrl } from '@/api/discord';
 import Link from 'next/link';
 
+// DİKKAT: Buradaki HomeView importunu sildik, hata buydu!
+
 const HomePage: NextPageWithLayout = () => {
-  // SAHTE GÖRÜNÜMÜ (HomeView) KALDIRDIK, ARTIK GERÇEK SİSTEM ÇALIŞACAK
   return (
     <Box>
       <Heading size="md" mb={5}>Sunucu Seçin</Heading>
-      <Text color="gray.400" mb={8}>Yapılandırmak istediğiniz sunucuyu aşağıdan seçin.</Text>
+      <Text color="gray.400" mb={8}>Botun ayarlarını yönetmek için bir sunucu seçin.</Text>
       <GuildSelect />
     </Box>
   );
@@ -32,15 +33,21 @@ export function GuildSelect() {
   const guilds = useGuilds();
 
   if (guilds.status === 'success') {
-    // Botun olduğu sunucuları filtrele
+    // config.guild.filter içindeki mantığa göre sunucuları süzüyoruz
     const filteredGuilds = guilds.data?.filter((guild) => config.guild.filter(guild)) || [];
 
     if (filteredGuilds.length === 0) {
       return (
-        <Card variant="primary" p={5}>
-          <Text textAlign="center">Henüz bir sunucuda bulunmuyorum veya yetkiniz yok.</Text>
-          <Button as="a" href={config.inviteUrl} target="_blank" mt={3} colorScheme="purple">
-            Beni Sunucuna Davet Et
+        <Card variant="primary" p={10} textAlign="center">
+          <Text mb={4}>Yönetici olduğunuz veya botun bulunduğu bir sunucu bulunamadı.</Text>
+          <Button 
+            as="a" 
+            href={config.inviteUrl} 
+            target="_blank" 
+            variant="primary"
+            alignSelf="center"
+          >
+            Botu Davet Et
           </Button>
         </Card>
       );
@@ -49,10 +56,10 @@ export function GuildSelect() {
     return (
       <SimpleGrid columns={{ base: 1, md: 2, xl: 3 }} gap={3}>
         {filteredGuilds.map((guild) => (
-          <Card key={guild.id} variant="primary" as={Link} href={`/guilds/${guild.id}`} _hover={{ transform: 'scale(1.02)', transition: '0.2s' }}>
+          <Card key={guild.id} variant="primary" as={Link} href={`/guilds/${guild.id}`}>
             <CardHeader as={Flex} flexDirection="row" gap={3} alignItems="center">
               <Avatar src={iconUrl(guild)} name={guild.name} size="md" />
-              <Text fontWeight="bold">{guild.name}</Text>
+              <Text fontWeight="bold" noOfLines={1}>{guild.name}</Text>
             </CardHeader>
           </Card>
         ))}
@@ -62,12 +69,10 @@ export function GuildSelect() {
 
   if (guilds.status === 'error')
     return (
-      <Flex direction="column" align="center" gap={3}>
-        <Text color="red.400">Bot API'sine bağlanılamadı!</Text>
-        <Button w="fit-content" variant="danger" onClick={() => guilds.refetch()}>
-          Tekrar Dene
-        </Button>
-      </Flex>
+      <Card variant="primary" p={5} borderColor="red.500">
+        <Text color="red.400" mb={3}>API bağlantısı sağlanamadı. Lütfen backend (bot) IP adresini kontrol edin.</Text>
+        <Button size="sm" onClick={() => guilds.refetch()}>Tekrar Dene</Button>
+      </Card>
     );
 
   if (guilds.status === 'loading')
@@ -79,8 +84,8 @@ export function GuildSelect() {
       </SimpleGrid>
     );
 
-  return <></>;
+  return null;
 }
 
-HomePage.getLayout = (c) => <AppLayout>{c}</AppLayout>;
+HomePage.getLayout = (page) => <AppLayout>{page}</AppLayout>;
 export default HomePage;
