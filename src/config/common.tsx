@@ -18,7 +18,7 @@ export const config: AppConfig = {
   icon: BotIcon,
   inviteUrl: 'https://discord.com/oauth2/authorize?client_id=1164533425764565096&permissions=8&scope=bot%20applications.commands',
   guild: {
-    // Bu ayar sayesinde sadece botun olduğu sunucular görünür hale gelir.
-    filter: (guild) => guild.bot_exists === true, 
+    // Sadece botun olduğu VE giriş yapanın sahibi olduğu sunucuları gösterir
+    filter: (guild: any) => guild.bot_exists && guild.owner,
   },
 };
